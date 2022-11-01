@@ -26,8 +26,6 @@ class UsersExport implements FromCollection, ShouldQueue
         return iterator_to_array($this->getAllUsersByCompany());
     }
 
-
-
     public function getAllUsersByCompany(): Generator
     {
         foreach ($this->company->users as $user) {
