@@ -47,14 +47,7 @@ class CreateCompaniesAndUsers extends Command
 
         $this->info('Create companies and users');
 
-        // Cria uma compania e seus usuários
-        // A quantidade de empresas e usuários é definido
-        // pelos argumentos passado no command
-        // Company::factory()->count($companies)
-        //             ->has(User::factory()->count($users))
-        //             ->create();
-
-        CreateCompanyJob::dispatch($countCompanies, $countUsers);
+        CreateCompanyJob::dispatch($countCompanies, $countUsers)->onQueue('company_create');;
 
         $this->info('The command was successful!');
 

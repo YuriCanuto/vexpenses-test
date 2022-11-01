@@ -42,7 +42,7 @@ class CreateCompanyJob implements ShouldQueue
 
         // Cria vários usuários para cada empresa
         foreach ($companies as $company) {
-            CreateUsersJob::dispatch($company->id, $this->users);
+            CreateUsersJob::dispatch($company->id, $this->users)->onQueue('user_create');;
         }
     }
 }
