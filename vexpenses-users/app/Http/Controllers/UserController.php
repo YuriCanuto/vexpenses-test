@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ImportUsersJob;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -25,21 +26,7 @@ class UserController extends Controller
 
                 $data = json_decode($response->body());
 
-                $file = file_get_contents($data->url, true);
-
-                Storage::put("{$token}.csv", $file);
-
-                $data = Storage::get("{$token}.csv");
-
-                array_map(function ($row) {
-                    $data = str_getcsv($row);
-                    if (!empty($data[0])) {
-                        $user = new User();
-                        $user->name = $data[0];
-                        $user->email = $data[1];
-                        $user->save();
-                    }
-                }, explode("\n", $data));
+                ImportUsersJob::dispatch($data->url, $token)->onQueue('import_user');
 
                 return response()->json(['message' => 'Importação iniciada']);
             }
