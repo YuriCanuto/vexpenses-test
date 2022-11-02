@@ -16,3 +16,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/users/import/{token}', [UserController::class, 'import']);
+Route::post('/users/import', [UserController::class, 'importCallback']);
+Route::put('/users/{id}/{token}', [UserController::class, 'update']);

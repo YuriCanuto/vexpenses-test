@@ -3,6 +3,7 @@
 namespace App\Repositories\Company;
 
 use App\Models\Company;
+use App\Models\User;
 use App\Repositories\Company\Contract\ICompanyRepository;
 
 class CompanyRepository implements ICompanyRepository {
@@ -12,6 +13,11 @@ class CompanyRepository implements ICompanyRepository {
     public function __construct(Company $company)
     {
         $this->company = $company;
+    }
+
+    public function updateUser(User $user, array $data): bool
+    {
+        return $user->update($data);
     }
 
     public function getByToken(int $token): ?Company

@@ -17,6 +17,29 @@ class CompanyController extends Controller
     public function __construct(protected CompanyService $companyService) { }
 
     /**
+     * @param Request $request
+     * @param int $token
+     * @param int $id
+     * @return JsonResponse|void
+     */
+    public function updateUser(Request $request, int $token, int $id): JsonResponse {
+
+        try {
+
+            $data = $request->all();
+
+            $this->companyService->updateUser($token, $id, $data);
+
+            return $this->respondWithSuccess();
+
+        } catch (\Exception $e) {
+
+            return $this->respondNotFound('Empresa não encontrada');
+        }
+
+    }
+
+    /**
      * @return Response
      * @throws Exception
      */
@@ -36,6 +59,10 @@ class CompanyController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function export(Request $request): JsonResponse
     {
         try {
@@ -54,6 +81,5 @@ class CompanyController extends Controller
         } catch (\Exception $e) {
             return $this->respondNotFound('Empresa não encontrada'.$e->getMessage());
         }
-
     }
 }

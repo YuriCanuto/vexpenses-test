@@ -30,6 +30,7 @@ class UsersExport implements FromCollection, ShouldQueue
     {
         foreach ($this->company->users as $user) {
             yield [
+                'id'    => $user->id,
                 'name'  => $user->name,
                 'email' => $user->email,
             ];
