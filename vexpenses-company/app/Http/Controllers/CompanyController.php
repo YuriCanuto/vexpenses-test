@@ -7,6 +7,8 @@ use Illuminate\Http\Response;
 use F9Web\ApiResponseHelpers;
 use Illuminate\Http\JsonResponse;
 use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CompanyController extends Controller
 {
@@ -32,5 +34,26 @@ class CompanyController extends Controller
 
             return $this->respondNotFound('Empresa não encontrada');
         }
+    }
+
+    public function export(Request $request): JsonResponse
+    {
+        try {
+            $company = $this->companyService->getByToken($request->token);
+
+            $url = Storage::disk('local')->temporaryUrl(
+                "{$company->token}.csv", now()->addMinutes(30)
+            );
+
+            $data = [
+                'url' => $url
+            ];
+
+            return response()->json(($data), 200);
+
+        } catch (\Exception $e) {
+            return $this->respondNotFound('Empresa não encontrada'.$e->getMessage());
+        }
+
     }
 }
