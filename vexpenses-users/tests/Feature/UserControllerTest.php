@@ -76,4 +76,38 @@ class UserControllerTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    /**
+     * @group UserController
+     */
+    public function test_update_user_status_400()
+    {
+        $this->artisan('migrate:refresh');
+
+        $response = $this->put('/api/users/1/1',[
+            'name' => 'Laravel',
+            'email' => 'laravel@mail.com'
+        ]);
+
+        $response->assertStatus(400);
+    }
+
+    /**
+     * @group UserController
+     */
+    public function test_update_user_status_200()
+    {
+        $this->artisan('migrate:refresh');
+
+        $user = User::factory()->count(1)->create([
+            'integration_id' => 1
+        ])->first();
+
+        $response = $this->put("/api/users/{$user->id}/1",[
+            'name' => 'Laravel',
+            'email' => 'laravel@mail.com'
+        ]);
+
+        $response->assertStatus(200);
+    }
 }
