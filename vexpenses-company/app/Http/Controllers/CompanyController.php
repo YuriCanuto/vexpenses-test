@@ -33,7 +33,6 @@ class CompanyController extends Controller
             return $this->respondWithSuccess();
 
         } catch (\Exception $e) {
-
             return $this->respondNotFound('Empresa não encontrada');
         }
 
@@ -79,7 +78,7 @@ class CompanyController extends Controller
             return response()->json(($data), 200);
 
         } catch (\Exception $e) {
-            return $this->respondNotFound('Empresa não encontrada'.$e->getMessage());
+            return $this->respondNotFound('Empresa não encontrada');
         }
     }
 }

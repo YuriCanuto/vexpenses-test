@@ -47,7 +47,7 @@ class CreateCompaniesAndUsers extends Command
 
         $this->info('Create companies and users');
 
-        CreateCompanyJob::dispatch($countCompanies, $countUsers)->onQueue('company_create');;
+        CreateCompanyJob::dispatch($countCompanies, $countUsers)->onQueue('company_create');
 
         $this->info('The command was successful!');
 
